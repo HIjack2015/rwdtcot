@@ -13,7 +13,7 @@ import cn.eport.model.TableName;
 public class Main {
 	public static void main(String args[]) throws Exception {
 		XWPFDocument document = POITool
-				.readWord("C:/Users/jiakang.EPORT0/Desktop/单兵数据库.docx");
+				.readWord("C:/Users/jiakang.EPORT0/Desktop/danBingAdd.docx");
 
 		// 获取所有段落
 		List<XWPFParagraph> paragraphs = document.getParagraphs();
@@ -26,7 +26,6 @@ public class Main {
 				String chinese = StringTool.getChinese(parContent);
 				TableName tableName = new TableName(english, chinese);
 				tableNames.add(tableName);
-
 			}
 
 		}
@@ -35,9 +34,8 @@ public class Main {
 		System.out.println(tables.size());
 		System.out.println(tableNames.size());
 		PrintWriter writer = new PrintWriter("createTable.sql", "UTF-8");
-		for (int tableNo = 1; tableNo < tableNames.size(); tableNo++) {
-
-			String sql = POITool.getSqlOfSetPKey(tables.get(tableNo),
+		for (int tableNo = 0; tableNo < tableNames.size(); tableNo++) {
+			String sql = POITool.getAllSql(tables.get(tableNo),
 					tableNames.get(tableNo));
 			if(sql!=null) {
 				System.out.println(sql);				

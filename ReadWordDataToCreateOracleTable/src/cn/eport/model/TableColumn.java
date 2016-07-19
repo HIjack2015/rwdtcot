@@ -10,7 +10,10 @@ public class TableColumn {
 	private String comments;
 
 	public TableColumn(XWPFTableRow row) {
-		row.removeCell(0); // È¥³ýÐòºÅÁÐ
+		if(row.getTableCells().size()!=5) {
+			System.out.println("create column error because cell£¡=4");
+			System.out.println(row.getCell(0).getText());
+		}
 		chineseName = row.getCell(0).getText();
 		englishName = row.getCell(1).getText();
 		type = row.getCell(2).getText();
