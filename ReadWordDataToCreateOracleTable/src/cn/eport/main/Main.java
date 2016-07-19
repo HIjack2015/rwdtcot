@@ -37,9 +37,12 @@ public class Main {
 		PrintWriter writer = new PrintWriter("createTable.sql", "UTF-8");
 		for (int tableNo = 1; tableNo < tableNames.size(); tableNo++) {
 
-			String sql = POITool.getSql(tables.get(tableNo),
+			String sql = POITool.getSqlOfSetPKey(tables.get(tableNo),
 					tableNames.get(tableNo));
-			writer.println(sql);
+			if(sql!=null) {
+				System.out.println(sql);				
+			}
+	//		writer.println(sql);
 		}
 		writer.close();
 		

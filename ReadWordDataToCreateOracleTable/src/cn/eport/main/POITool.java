@@ -60,4 +60,34 @@ public class POITool {
 
 		return createTableSql.toString();
 	}
+	public static String getSqlOfSetPKey(XWPFTable table, TableName name) {
+		StringBuilder createTableSql = new StringBuilder();
+
+		createTableSql.append("alter table " + name.getEnglishName()+" add constraint  "+name.getEnglishName()+
+				"_PK  primary key (" + "\n");
+		List<XWPFTableRow> xwpfTableRows = table.getRows();
+		xwpfTableRows.remove(0);
+		boolean hasPK=false;
+		for (XWPFTableRow xwpfTableRow : xwpfTableRows) {
+			TableColumn column = new TableColumn(xwpfTableRow);
+			if (!column.isHealth()) {
+//				MyLog.error("column " + column.toString()
+//						+ " is not health in table" + name.getChineseName());
+				continue;
+			}	
+			String comments=column.getComments();
+			if (comments.contains("PK")||comments.contains("pk")||comments.contains("Ö÷¼ü")) {
+				hasPK=true;
+				createTableSql.append(column.getEnglishName()+" ,");
+			}
+
+		}
+		createTableSql.deleteCharAt(createTableSql.length()-1);
+		createTableSql.append(") using index  tablespace BDDB;");
+		if (hasPK) {
+			return createTableSql.toString();			
+		} else {
+			return  null;
+		}
+	}
 }
